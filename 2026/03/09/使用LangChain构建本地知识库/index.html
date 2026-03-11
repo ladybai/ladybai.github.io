@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://example.com/2026/03/09/%E4%BD%BF%E7%94%A8LangChain%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/image-20260310173557796.png">
 <meta property="og:image" content="http://example.com/2026/03/09/%E4%BD%BF%E7%94%A8LangChain%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/image-20260310173628181.png">
 <meta property="article:published_time" content="2026-03-09T06:57:39.000Z">
-<meta property="article:modified_time" content="2026-03-10T10:03:02.458Z">
+<meta property="article:modified_time" content="2026-03-11T07:26:49.806Z">
 <meta property="article:author" content="Jone">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2026/03/09/%E4%BD%BF%E7%94%A8LangChain%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%9F%A5%E8%AF%86%E5%BA%93/image-20260310140945182.png">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.3k 字
         
       </span>
     
@@ -239,7 +239,7 @@
         
         
         
-          17 分钟
+          19 分钟
         
       </span>
     
@@ -357,7 +357,17 @@
 <li>法律条文&#x2F;规章制度：建议较细粒度。每一条规则都是独立的，混合在一起会干扰检索。</li>
 <li>小说&#x2F;传记&#x2F;叙事散文：建议中等粒度 + 较高重叠度。需要维持故事情节的连续性。</li>
 </ol>
-<h4 id="3、向量化"><a href="#3、向量化" class="headerlink" title="3、向量化"></a>3、向量化</h4>
+<h4 id="3、向量化-检索"><a href="#3、向量化-检索" class="headerlink" title="3、向量化 &amp; 检索"></a>3、向量化 &amp; 检索</h4><p>将切割后的文本进行向量化，存入向量数据库，在问答的适合进行检索</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-variable language_">self</span>.embeddings = OpenAIEmbeddings(<br>            model=<span class="hljs-string">&quot;text-embedding-3-small&quot;</span>,<br>            api_key=custom_api_key,<br>            base_url=custom_url<br>        )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_vector_store</span>(<span class="hljs-params">self, split_docs: <span class="hljs-built_in">list</span></span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.vector_store <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-comment"># 首次写入，创建集合并存入内存</span><br>        <span class="hljs-variable language_">self</span>.vector_store = QdrantVectorStore.from_documents(<br>            documents=split_docs,<br>            embedding=<span class="hljs-variable language_">self</span>.embeddings,<br>            location=<span class="hljs-string">&quot;:memory:&quot;</span>,<br>            collection_name=<span class="hljs-variable language_">self</span>.collection_name<br>        )<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># 追加写入内存</span><br>        <span class="hljs-variable language_">self</span>.vector_store.add_documents(split_docs)<br>        <br>question_answer_chain = create_stuff_documents_chain(<span class="hljs-variable language_">self</span>.llm, prompt)<br>        <br><span class="hljs-comment"># 创建检索器，Qdrant 默认取最相关的 4 个片段</span><br>retriever = <span class="hljs-variable language_">self</span>.vector_store.as_retriever(search_kwargs=&#123;<span class="hljs-string">&quot;k&quot;</span>: <span class="hljs-number">4</span>&#125;)<br>rag_chain = create_retrieval_chain(retriever, question_answer_chain)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;🧠 正在检索内存知识库并思考: <span class="hljs-subst">&#123;query&#125;</span>&quot;</span>)<br>response = rag_chain.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: query&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>向量化并存储的过程</p>
+<p>Embedding的过程是将<strong>非结构化的离散文本数据</strong>转为<strong>连续的高维向量空间</strong>的过程，从而将比较两个文本转为计算两个向量的“<strong>距离</strong>”（一般采用余弦相似度来计算）。</p>
+<p>其实总结起来也就是下面4个步骤：</p>
+<p><strong>1.输入</strong>：非结构化文本</p>
+<p><strong>2.变换</strong>：通过Embedding模型投影至高维空间</p>
+<p><strong>3.度量</strong>：以余弦相似度为尺子，在空间中寻找“离问题最近”的知识</p>
+<p><strong>4.输出</strong>：提取相关的上下文，喂给大模型。</p>
+
                 
               </div>
             
