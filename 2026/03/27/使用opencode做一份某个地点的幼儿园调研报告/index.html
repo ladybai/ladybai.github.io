@@ -26,13 +26,14 @@
 <meta property="og:site_name" content="Jone&#39;s blog">
 <meta property="og:description" content="&#x2F;&#x2F; 这个属于使用opencode的一份实践，但是在实践过程中发现蛮多问题： 1、mcp的支持问题 2、skill的支持问题 3、大模型的上下文长度问题 背景：我家小孩马上要报名幼儿园了，我想调研一下我家附近的幼儿园情况 详细需求：输出 上海市御桥地铁站 为中心3公里范围内的所有幼儿园，要求列出幼儿园是公办还是民办，幼儿园的等级（一级幼儿园，二级幼儿园等），是否是普惠幼儿园，学">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/03/27/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png">
 <meta property="og:image" content="http://example.com/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png">
 <meta property="article:published_time" content="2026-03-27T03:21:49.000Z">
-<meta property="article:modified_time" content="2026-03-27T06:23:33.829Z">
+<meta property="article:modified_time" content="2026-03-27T07:21:25.500Z">
 <meta property="article:author" content="Jone">
 <meta property="article:tag" content="opencode">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png">
+<meta name="twitter:image" content="http://example.com/2026/03/27/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png">
   
   
   
@@ -307,7 +308,7 @@
 <p><a target="_blank" rel="noopener" href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch">https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch</a></p>
 <p>这里会得到一个json格式的幼儿园列表–将其保存在 幼儿园列表.json</p>
 <p>这里我们拿到了25个数据，去除其中明显不是幼儿园的数据，剩余23个数据。</p>
-
+<img src="/2026/03/27/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png" srcset="/img/loading.gif" lazyload class="" title="这里是图片的文字描述">
 
 <p><img src="/%E4%BD%BF%E7%94%A8opencode%E5%81%9A%E4%B8%80%E4%BB%BD%E6%9F%90%E4%B8%AA%E5%9C%B0%E7%82%B9%E7%9A%84%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/image-20260327135415316.png" srcset="/img/loading.gif" lazyload alt="image-20260327135415316"></p>
 <h3 id="自定义网页检索"><a href="#自定义网页检索" class="headerlink" title="自定义网页检索"></a>自定义网页检索</h3><p>在opencode增加自定义mcp工具：</p>
